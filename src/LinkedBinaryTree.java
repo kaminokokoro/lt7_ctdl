@@ -117,17 +117,50 @@ public class LinkedBinaryTree<E> implements BinaryTreeInterface<E> {
         inorderTraversal(node.right);
     }
 
+
+
     public boolean checkForBST(Node<E> node) {
-        if (node == null) {
-            return true;
+        E[] result = inOrder();
+        for(int i = 0; i < result.length-1; i++){
+            if(result[i].hashCode() > result[i+1].hashCode()){
+                return false;
+            }
         }
-        if (node.left != null && node.left.compareTo(node) > 0) {
-            return false;
+        return true;
+    }
+
+    public int calculateSize(Node root) {
+        if (root == null) {
+            return 0;
         }
-        if (node.right != null && node.right.compareTo(node) < 0) {
-            return false;
+        return 1 + calculateSize(root.left) + calculateSize(root.right);
+    }
+
+    public E[] inOrder() {
+        size= calculateSize(root);
+        E[] result = (E[]) new Object[size];
+        Node<E> current = root;
+        int i = 0;
+        while (current != null) {
+            if (current.left == null) {
+                result[i++] = current.element;
+                current = current.right;
+            } else {
+                Node<E> predecessor = current.left;
+                while (predecessor.right != null && predecessor.right != current) {
+                    predecessor = predecessor.right;
+                }
+                if (predecessor.right == null) {
+                    predecessor.right = current;
+                    current = current.left;
+                } else {
+                    predecessor.right = null;
+                    result[i++] = current.element;
+                    current = current.right;
+                }
+            }
         }
-        return checkForBST(node.left) && checkForBST(node.right);
+        return result;
     }
 
     public ArrayList<E> binaryTreeToArray(ArrayList<E> arrayList,Node node) {
@@ -156,4 +189,27 @@ public class LinkedBinaryTree<E> implements BinaryTreeInterface<E> {
         arrayList.remove(0);
         ArrayListToBinaryTree(arrayList,current.right);
     }
+    public void PreorderTraversalToBST(ArrayList<E> arrayList, Node<E> current) {
+        if (arrayList.size() == 0) {
+            return ;
+        }
+        current.setElement(arrayList.get(0));
+        arrayList.remove(0);
+        if(arrayList.size() == 0){
+            return;
+        }
+        if(current.getElement().hashCode() > arrayList.get(0).hashCode()){
+            current.setLeft(new LinkedBinaryTree.Node<>(null, null, null, null));
+            PreorderTraversalToBST(arrayList, current.getLeft());
+        }
+        if (arrayList.size() == 0) {
+            return;
+        }
+        if (current.getElement().hashCode() < arrayList.get(0).hashCode()) {
+            current.setRight(new LinkedBinaryTree.Node<>(null, null, null, null));
+            PreorderTraversalToBST(arrayList, current.getRight());
+        }
+
+    }
+
 }

@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Stack;
+
 public class BinarySearchTree<E> implements BinaryTreeInterface<E> {
     class Node<E> implements Comparable<E> {
 
@@ -206,7 +209,7 @@ public class BinarySearchTree<E> implements BinaryTreeInterface<E> {
             }
 
         }
-        if(root.data.hashCode() == data.hashCode()){
+        if (root.data.hashCode() == data.hashCode()) {
             if (root.left == null) {
                 size--;
                 return root.right;
@@ -307,5 +310,17 @@ public class BinarySearchTree<E> implements BinaryTreeInterface<E> {
         delete(this.root, data1);
         add(data2);
     }
+
+    public boolean PreorderTraversalAndBST(E[] preOrder) {
+        ArrayList<E> arrayList = new ArrayList<>();
+        for (int i = 0; i < preOrder.length; i++) {
+            arrayList.add(preOrder[i]);
+        }
+        LinkedBinaryTree tree = new LinkedBinaryTree();
+        tree.root = new LinkedBinaryTree.Node<>(null, null, null, null);
+        tree.PreorderTraversalToBST(arrayList, tree.root);
+        return tree.checkForBST(tree.root);
+    }
+
 
 }

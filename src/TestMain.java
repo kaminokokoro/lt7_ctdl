@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class TestMain {
     public static void main(String[] args) {
         LinkedBinaryTree<String> tree = new LinkedBinaryTree<>();
@@ -86,6 +89,26 @@ public class TestMain {
         System.out.println("tree to BST:");
         tree2.binaryTreeToBST();
         tree2.inorderTraversal(root2);
+        System.out.println();
+
+        System.out.println("Preorder Traversal and BST:");
+        Integer[] pre = {2,4,3};
+        System.out.println("Preorder: ");
+        for (int i=0; i<pre.length; i++) {
+            System.out.print(pre[i]+" ");
+        }
+        System.out.println();
+        System.out.println("BST: "+bst.PreorderTraversalAndBST(pre));
+
+        pre = new Integer[]{2, 4, 1};
+        System.out.println("Preorder: ");
+        for (int i=0; i<pre.length; i++) {
+            System.out.print(pre[i]+" ");
+        }
+        System.out.println();
+        System.out.println("BST: "+bst.PreorderTraversalAndBST(pre));
 
     }
+
+
 }
